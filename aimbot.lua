@@ -1,5 +1,5 @@
 -- ============================================
--- CHEAT MENU v4.1 - Taal NL/EN + Mouse unlock fix
+-- CHEAT MENU v4.2 - F = Vliegen | T = Muis Unlock
 -- Plaats in: StarterPlayer > StarterPlayerScripts
 -- ============================================
 
@@ -27,18 +27,16 @@ local AUTOLOAD_FILE = CONFIG_FOLDER .. "/autoload.txt"
 -- ============================================
 -- TAAL SYSTEEM
 -- ============================================
-local CurrentLang = "nl" -- "nl" of "en"
+local CurrentLang = "nl"
 
 local Translations = {
     nl = {
-        -- Tabs
         tab_aimbot    = "Aimbot",
         tab_esp       = "ESP",
         tab_player    = "Speler",
         tab_config    = "Config",
         tab_settings  = "Opties",
 
-        -- Aimbot
         aim_on        = "Aimbot: AAN  [X]",
         aim_off       = "Aimbot: UIT  [X]",
         aim_mode      = "Aim Mode:",
@@ -53,7 +51,6 @@ local Translations = {
         autoshoot     = "🔫 Auto Schiet (bij target)",
         shoot_cd      = "Schiet cooldown: %.2fs",
 
-        -- ESP
         esp_on        = "ESP: AAN",
         esp_off       = "ESP: UIT",
         esp_2dbox     = "2D Box",
@@ -64,15 +61,13 @@ local Translations = {
         esp_tracer    = "Tracer",
         esp_color     = "ESP + FOV Kleur:",
 
-        -- Player
         walk_speed    = "Loopsnelheid: %d",
         jump_power    = "Springkracht: %d",
-        fly           = "✈️ Vliegen (WASD + Space/Ctrl)",
+        fly           = "✈️ Vliegen  [F]",
         fly_speed     = "Vliegsnelheid: %d",
         infjump       = "🦘 Oneindig Springen",
         reset_player  = "🔄 Speler Reset",
 
-        -- Config
         cfg_ph        = "Config naam (bijv. 'default')",
         cfg_save      = "💾 OPSLAAN Config",
         cfg_load      = "📂 LADEN Config",
@@ -83,18 +78,17 @@ local Translations = {
         cfg_nofile    = "Configs: File API niet beschikbaar",
         cfg_header    = "Configs:",
 
-        -- Settings
         set_mouse     = "🖱️ Muis Ontgrendelen  [T]",
         set_mouse_info= "Druk op T om de muis te ontgrendelen\nzodat je op de GUI kunt klikken.",
         set_mouse_btn = "🖱️ Muis Lock Togglen",
         set_lang      = "Taal:",
-        set_currentkey= "Huidige toets: T",
 
-        -- Notificaties
         notif_unlock  = "🖱️ Muis ONTGRENDELD - druk T om te locken",
         notif_lock    = "🔒 Muis LOCKED",
-        notif_loaded  = "Cheat Menu v4.1",
-        notif_hint    = "X = aimbot | T = muis unlock | 5 tabs",
+        notif_fly_on  = "✈️ Vliegen AAN",
+        notif_fly_off = "✈️ Vliegen UIT",
+        notif_loaded  = "Cheat Menu v4.2",
+        notif_hint    = "X = aimbot | T = muis | F = vliegen",
     },
     en = {
         tab_aimbot    = "Aimbot",
@@ -129,7 +123,7 @@ local Translations = {
 
         walk_speed    = "WalkSpeed: %d",
         jump_power    = "JumpPower: %d",
-        fly           = "✈️ Fly (WASD + Space/Ctrl)",
+        fly           = "✈️ Fly  [F]",
         fly_speed     = "Fly speed: %d",
         infjump       = "🦘 Infinite Jump",
         reset_player  = "🔄 Reset Player",
@@ -148,12 +142,13 @@ local Translations = {
         set_mouse_info= "Press T to unlock the mouse\nso you can click on the GUI.",
         set_mouse_btn = "🖱️ Toggle Mouse Lock",
         set_lang      = "Language:",
-        set_currentkey= "Current key: T",
 
         notif_unlock  = "🖱️ Mouse UNLOCKED - press T to lock",
         notif_lock    = "🔒 Mouse LOCKED",
-        notif_loaded  = "Cheat Menu v4.1",
-        notif_hint    = "X = aimbot | T = mouse unlock | 5 tabs",
+        notif_fly_on  = "✈️ Fly ON",
+        notif_fly_off = "✈️ Fly OFF",
+        notif_loaded  = "Cheat Menu v4.2",
+        notif_hint    = "X = aimbot | T = mouse | F = fly",
     },
 }
 
@@ -162,9 +157,8 @@ local function T(key)
     return lang[key] or key
 end
 
--- Referenties voor taal-update
-local LangRefs = {}        -- {el=TextLabel/Button, key="..."}
-local LangRefreshers = {}  -- functies die opnieuw uitgevoerd worden
+local LangRefs = {}
+local LangRefreshers = {}
 
 local function reg(el, key)
     table.insert(LangRefs, {el = el, key = key})
@@ -341,7 +335,7 @@ local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, -10, 1, 0)
 Title.Position = UDim2.new(0, 10, 0, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "⚡ Cheat Menu v4.1"
+Title.Text = "⚡ Cheat Menu v4.2"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 14
@@ -641,7 +635,6 @@ local function createDropdown(parent, labelKey, yPos, options, defaultOption, ge
         SelectBtn.Text = getOptionName(opt) .. "  ▾"
     end
 
-    -- Refresh bij taalwissel
     table.insert(LangRefreshers, function()
         SelectBtn.Text = getOptionName(currentOption) .. "  ▾"
         for opt, btn in pairs(optionButtons) do
@@ -693,7 +686,6 @@ local function createSlider(parent, yPos, min, max, defaultValue, isInt, formatF
         onChange(v)
     end
 
-    -- Refresh bij taalwissel
     table.insert(LangRefreshers, function()
         Label.Text = formatFn(currentValue)
     end)
@@ -880,7 +872,7 @@ local setJumpSlider = createSlider(PlayerPage, 40, 50, 500, PlayerSettings.JumpP
 
 local FlyRefs = { bv = nil, bg = nil }
 
-local function setFly(enabled)
+function setFly(enabled)
     PlayerSettings.Fly = enabled
     local char = LocalPlayer.Character
     if not char then return end
@@ -986,7 +978,7 @@ ConfigListLabel.TextWrapped = true
 ConfigListLabel.Parent = ConfigPage
 
 -- ============================================
--- SETTINGS PAGE (Mouse + Taal)
+-- SETTINGS PAGE
 -- ============================================
 local function setMouseUnlocked(unlocked)
     MiscSettings.MouseUnlocked = unlocked
@@ -1036,7 +1028,6 @@ createButton(SettingsPage, "set_mouse_btn", 80, function()
     setMouseUnlockUI(MiscSettings.MouseUnlocked)
 end, Color3.fromRGB(0, 120, 200))
 
--- Taal dropdown
 local setLangDropdown = createDropdown(SettingsPage, "set_lang", 124, Languages,
     findLang(CurrentLang),
     function(l) return l.name end,
@@ -1045,12 +1036,29 @@ local setLangDropdown = createDropdown(SettingsPage, "set_lang", 124, Languages,
         refreshLang()
     end)
 
--- Mouse unlock keybind listener
+-- ============================================
+-- KEYBINDS (T = muis, F = vliegen)
+-- ============================================
 UserInputService.InputBegan:Connect(function(input, gp)
     if gp then return end
+
+    -- T: muis unlock
     if input.KeyCode == MiscSettings.MouseUnlockKey then
         setMouseUnlocked(not MiscSettings.MouseUnlocked)
         setMouseUnlockUI(MiscSettings.MouseUnlocked)
+    end
+
+    -- F: vliegen toggle
+    if input.KeyCode == Enum.KeyCode.F then
+        setFly(not PlayerSettings.Fly)
+        setFlyUI(PlayerSettings.Fly)
+        pcall(function()
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "CheatMenu",
+                Text = PlayerSettings.Fly and T("notif_fly_on") or T("notif_fly_off"),
+                Duration = 2,
+            })
+        end)
     end
 end)
 
@@ -1090,7 +1098,6 @@ function toggleAimbot()
     end
 end
 
--- Language refresh: aimbot knop opnieuw zetten
 table.insert(LangRefreshers, function()
     if AimSettings.Enabled then
         AimbotToggleRef.Text = T("aim_on")
@@ -1611,7 +1618,6 @@ function loadConfig(name)
         setFlyUI(tbl.PFly)
     end
 
-    -- Taal
     if tbl.Lang and (tbl.Lang == "nl" or tbl.Lang == "en") then
         CurrentLang = tbl.Lang
         setLangDropdown(findLang(CurrentLang))
@@ -1740,7 +1746,7 @@ CloseBtn.MouseButton1Click:Connect(function()
 end)
 
 -- ============================================
--- MOUSE UNLOCK FORCE (na camera priority!) ✅
+-- MOUSE UNLOCK FORCE (na camera priority!)
 -- ============================================
 RunService:BindToRenderStep("CheatMenu_MouseUnlock", Enum.RenderPriority.Camera.Value + 1, function()
     if MiscSettings.MouseUnlocked then
