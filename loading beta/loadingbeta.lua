@@ -346,7 +346,6 @@ task.delay(LOAD_TIME + 0.3, function()
     -- ═══════════════════════════════════════════
     --   🎯 HIER KOMT JOUW LOADSTRING
     -- ═══════════════════════════════════════════
-    -- Voorbeeld:
     -- loadstring(game:HttpGet("https://raw.githubusercontent.com/coedymens/AI-Scripts-lol/refs/heads/main/aimbot.lua"))()
     -- ═══════════════════════════════════════════
 end)
