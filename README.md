@@ -8,5 +8,5 @@ step 2 open your executors workspace folder and find the folder CheatMenuConfigs
 btw u need to have executed the script before this folder appear
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/coedymens/AI-Scripts-lol/refs/heads/main/aimbot.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/coedymens/AI-Scripts-lol/refs/heads/main/loading%20beta/loadingbeta.lua"))()
 ```
