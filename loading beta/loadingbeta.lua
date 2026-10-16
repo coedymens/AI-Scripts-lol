@@ -19,7 +19,7 @@ gui.ResetOnSpawn = false
 gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 gui.Parent = playerGui
 
--- ═══ ACHTERGROND (donker met blur feel) ═══
+-- ═══ ACHTERGROND ═══
 local bg = Instance.new("Frame")
 bg.Size = UDim2.new(1, 0, 1, 0)
 bg.BackgroundColor3 = Color3.fromRGB(8, 8, 14)
@@ -36,12 +36,11 @@ bgGradient.Color = ColorSequence.new{
 bgGradient.Rotation = 90
 bgGradient.Parent = bg
 
--- Fade in achtergrond
 TweenService:Create(bg, TweenInfo.new(0.6, Enum.EasingStyle.Quad), {
     BackgroundTransparency = 0
 }):Play()
 
--- ═══ GLOW BLOB ACHTER DE BOX ═══
+-- ═══ GLOW BLOB ═══
 local glow = Instance.new("Frame")
 glow.Size = UDim2.new(0, 500, 0, 320)
 glow.Position = UDim2.new(0.5, 0, 0.5, 0)
@@ -60,7 +59,6 @@ TweenService:Create(glow, TweenInfo.new(1, Enum.EasingStyle.Quad), {
     BackgroundTransparency = 0.85
 }):Play()
 
--- Pulserende glow
 task.spawn(function()
     while glow.Parent do
         TweenService:Create(glow, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
@@ -90,7 +88,6 @@ local boxCorner = Instance.new("UICorner")
 boxCorner.CornerRadius = UDim.new(0, 18)
 boxCorner.Parent = box
 
--- Box border (stroke)
 local stroke = Instance.new("UIStroke")
 stroke.Thickness = 1.5
 stroke.Color = Color3.fromRGB(140, 80, 255)
@@ -106,13 +103,12 @@ strokeGradient.Color = ColorSequence.new{
 strokeGradient.Rotation = 45
 strokeGradient.Parent = stroke
 
--- Box in animatie
 TweenService:Create(box, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
     BackgroundTransparency = 0.15
 }):Play()
 TweenService:Create(stroke, TweenInfo.new(0.5), { Transparency = 0.3 }):Play()
 
--- ═══ TITEL BOVEN DE BOX: "UNIVERSAL AIMBOT" ═══
+-- ═══ TITEL ═══
 local title = Instance.new("TextLabel")
 title.Name = "Title"
 title.Size = UDim2.new(0, 420, 0, 50)
@@ -135,14 +131,13 @@ titleGradient.Color = ColorSequence.new{
 }
 titleGradient.Parent = title
 
--- Titel fade + slide in
 title.Position = UDim2.new(0.5, 0, 0.5, -140)
 TweenService:Create(title, TweenInfo.new(0.8, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
     TextTransparency = 0,
     Position = UDim2.new(0.5, 0, 0.5, -170),
 }):Play()
 
--- Subtitel onder de titel
+-- ═══ SUBTITEL ═══
 local subtitle = Instance.new("TextLabel")
 subtitle.Name = "Subtitle"
 subtitle.Size = UDim2.new(0, 420, 0, 20)
@@ -162,7 +157,6 @@ TweenService:Create(subtitle, TweenInfo.new(0.8, Enum.EasingStyle.Quad), {
 }):Play()
 
 -- ═══ CONTENT IN DE BOX ═══
--- Status tekst
 local status = Instance.new("TextLabel")
 status.Name = "Status"
 status.Size = UDim2.new(1, -40, 0, 20)
@@ -179,7 +173,6 @@ status.Parent = box
 
 TweenService:Create(status, TweenInfo.new(0.6), { TextTransparency = 0 }):Play()
 
--- Percentage
 local percent = Instance.new("TextLabel")
 percent.Name = "Percent"
 percent.Size = UDim2.new(1, -40, 0, 20)
@@ -196,7 +189,7 @@ percent.Parent = box
 
 TweenService:Create(percent, TweenInfo.new(0.6), { TextTransparency = 0 }):Play()
 
--- Loading bar achtergrond
+-- ═══ LOADING BAR ═══
 local barBg = Instance.new("Frame")
 barBg.Name = "BarBG"
 barBg.Size = UDim2.new(1, -40, 0, 8)
@@ -213,7 +206,6 @@ barBgCorner.Parent = barBg
 
 TweenService:Create(barBg, TweenInfo.new(0.5), { BackgroundTransparency = 0 }):Play()
 
--- Loading bar fill
 local barFill = Instance.new("Frame")
 barFill.Name = "BarFill"
 barFill.Size = UDim2.new(0, 0, 1, 0)
@@ -234,14 +226,7 @@ barFillGradient.Color = ColorSequence.new{
 }
 barFillGradient.Parent = barFill
 
--- Glow op de bar fill
-local barGlow = Instance.new("UIStroke")
-barGlow.Thickness = 0
-barGlow.Color = Color3.fromRGB(255, 130, 230)
-barGlow.Transparency = 0.4
-barGlow.Parent = barFill
-
--- Kleine info tekst onderaan de box
+-- ═══ INFO TEKST ═══
 local info = Instance.new("TextLabel")
 info.Name = "Info"
 info.Size = UDim2.new(1, -40, 0, 16)
@@ -258,7 +243,7 @@ info.Parent = box
 
 TweenService:Create(info, TweenInfo.new(0.6), { TextTransparency = 0 }):Play()
 
--- Dot indicator rechtsonder
+-- ═══ GROENE DOT ═══
 local dot = Instance.new("Frame")
 dot.Size = UDim2.new(0, 6, 0, 6)
 dot.Position = UDim2.new(1, -26, 1, -30)
@@ -271,7 +256,6 @@ local dotCorner = Instance.new("UICorner")
 dotCorner.CornerRadius = UDim.new(1, 0)
 dotCorner.Parent = dot
 
--- Pulserende dot
 task.spawn(function()
     while dot.Parent do
         TweenService:Create(dot, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
@@ -285,8 +269,8 @@ task.spawn(function()
     end
 end)
 
--- ═══ LOADING LOGICA (3.5 seconden) ═══
-local LOAD_TIME = 3.5 -- seconden
+-- ═══ LOADING LOGICA ═══
+local LOAD_TIME = 3.5
 local steps = {
     { time = 0.0,  percent = 0,   text = "Initializing..." },
     { time = 0.5,  percent = 15,  text = "Connecting to server..." },
@@ -297,7 +281,6 @@ local steps = {
     { time = 3.5,  percent = 100, text = "Ready!" },
 }
 
--- Start alle stappen
 task.spawn(function()
     local startTime = tick()
     for _, step in ipairs(steps) do
@@ -310,9 +293,9 @@ task.spawn(function()
     end
 end)
 
--- ═══ NA 3.5s: FADE OUT + LOADSCRIPT ═══
+-- ═══ NA 3.5s: FADE OUT + LOADSTRING ═══
 task.delay(LOAD_TIME + 0.3, function()
-    -- Flash effect
+    -- Flash
     local flash = Instance.new("Frame")
     flash.Size = UDim2.new(1, 0, 1, 0)
     flash.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -320,11 +303,11 @@ task.delay(LOAD_TIME + 0.3, function()
     flash.BorderSizePixel = 0
     flash.ZIndex = 100
     flash.Parent = gui
-    
+
     TweenService:Create(flash, TweenInfo.new(0.15), { BackgroundTransparency = 0.8 }):Play()
     task.wait(0.15)
-    
-    -- Fade alles uit
+
+    -- Fade out
     local fadeInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
     TweenService:Create(box, fadeInfo, { BackgroundTransparency = 1 }):Play()
     TweenService:Create(stroke, fadeInfo, { Transparency = 1 }):Play()
@@ -339,10 +322,19 @@ task.delay(LOAD_TIME + 0.3, function()
     TweenService:Create(glow, fadeInfo, { BackgroundTransparency = 1 }):Play()
     TweenService:Create(flash, fadeInfo, { BackgroundTransparency = 1 }):Play()
     TweenService:Create(bg, fadeInfo, { BackgroundTransparency = 1 }):Play()
-    
+
     task.wait(0.6)
     gui:Destroy()
-    
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/coedymens/AI-Scripts-lol/refs/heads/main/aimbot.lua"))()
-    
+
+    -- ═══════════════════════════════════════════
+    --   🎯 LOADSTRING — JOUW AIMBOT SCRIPT
+    -- ═══════════════════════════════════════════
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/coedymens/AI-Scripts-lol/refs/heads/main/aimbot.lua"))()
+    end)
+
+    if not success then
+        warn("[Aimbot] Loadstring error: " .. tostring(err))
+    end
+    -- ═══════════════════════════════════════════
 end)
