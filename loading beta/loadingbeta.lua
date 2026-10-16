@@ -343,9 +343,6 @@ task.delay(LOAD_TIME + 0.3, function()
     task.wait(0.6)
     gui:Destroy()
     
-    -- ═══════════════════════════════════════════
-    --   🎯 HIER KOMT JOUW LOADSTRING
-    -- ═══════════════════════════════════════════
-    -- loadstring(game:HttpGet("https://raw.githubusercontent.com/coedymens/AI-Scripts-lol/refs/heads/main/aimbot.lua"))()
-    -- ═══════════════════════════════════════════
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/coedymens/AI-Scripts-lol/refs/heads/main/aimbot.lua"))()
+    
 end)
